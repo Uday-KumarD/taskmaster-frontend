@@ -14,17 +14,29 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const requestBody = {
+      email: email.toLowerCase().trim(),
+      password: password.trim()
+    };
+    console.log('Login request body:', requestBody);
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        email,
-        password,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, requestBody, {
+        headers: { 'Content-Type': 'application/json' }
       });
-      localStorage.setItem('token', response.data.token);
-      dispatch(setUser(response.data.user));
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      dispatch(setUser(user));
       toast.success('Login successful');
+      console.log('Login successful:', { token, user });
       router.push('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
+      const errorMessage = err.response?.data?.message || 'Login failed';
+      console.error('Login error:', {
+        message: errorMessage,
+        status: err.response?.status,
+        data: err.response?.data
+      });
+      toast.error(errorMessage);
     }
   };
 
@@ -63,7 +75,7 @@ export default function Login() {
             style={{
               background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
               border: 'none',
-              transition: 'transform 0.2s',
+              transition: 'transform 0.2s'
             }}
             onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
             onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}

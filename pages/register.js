@@ -7,19 +7,39 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState(''); // New state for role
   const router = useRouter();
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
       return toast.error('Password must be 8+ characters with uppercase, lowercase, number, and special character');
     }
+    if (!role) {
+      return toast.error('Please select a role');
+    }
+    const requestBody = {
+      name,
+      email: email.toLowerCase().trim(),
+      password: password.trim(),
+      role
+    };
+    console.log('Register request body:', requestBody);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, { name, email, password });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, requestBody, {
+        headers: { 'Content-Type': 'application/json' }
+      });
       toast.success('Registration successful, please log in');
+      console.log('Registration successful:', response.data);
       router.push('/login');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      const errorMessage = err.response?.data?.message || 'Registration failed';
+      console.error('Registration error:', {
+        message: errorMessage,
+        status: err.response?.status,
+        data: err.response?.data
+      });
+      toast.error(errorMessage);
     }
   };
 
@@ -27,7 +47,7 @@ export default function Register() {
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px', background: 'linear-gradient(145deg, #ffffff, #e6e6e6)' }}>
         <h2 className="text-center mb-4" style={{ color: '#4F46E5' }}>Register</h2>
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">Name</label>
             <input
@@ -64,13 +84,28 @@ export default function Register() {
               placeholder="Enter your password"
             />
           </div>
+          <div className="mb-3">
+            <label htmlFor="role" className="form-label">Role</label>
+            <select
+              className="form-control"
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+            >
+              <option value="">Select a role</option>
+              <option value="Admin">Admin</option>
+              <option value="Manager">Manager</option>
+              <option value="User">User</option>
+            </select>
+          </div>
           <button
             type="submit"
             className="btn btn-primary w-100"
             style={{
               background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
               border: 'none',
-              transition: 'transform 0.2s',
+              transition: 'transform 0.2s'
             }}
             onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
             onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
