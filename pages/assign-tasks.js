@@ -73,7 +73,7 @@ export default function AssignTasks({ socket }) {
 
   return (
     <div className="container-fluid py-4">
-      <h1 className="mb-4 text-center">Assign Tasks</h1>
+      <h1 className="mt-5 text-center">Assig Tasks</h1>
       <div className="row justify-content-center mb-5">
         <div className="col-12 col-md-8 col-lg-6">
           <TaskForm fetchTasks={handleTaskCreated} />

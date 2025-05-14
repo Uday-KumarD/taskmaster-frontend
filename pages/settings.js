@@ -7,7 +7,7 @@ export default function Settings() {
 
   return (
     <div className="container-fluid py-4">
-      <h1 className="mb-4 text-center">Settings</h1>
+      <h1 className="mt-5 text-center">Settings</h1>
       <div className="card shadow-lg p-4 mx-auto fade-in" style={{ maxWidth: '500px' }}>
         <h3 className="mb-4">User Settings</h3>
         <p><strong>Name:</strong> {user.name}</p>

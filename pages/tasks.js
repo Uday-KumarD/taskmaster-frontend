@@ -54,7 +54,7 @@ export default function Tasks({ socket }) {
 
   return (
     <div className="container-fluid py-4">
-      <h1 className="mb-4 text-center">My Tasks</h1>
+      <h1 className="mt-5 text-center">My Tasks</h1>
       <div className="card shadow-lg p-4 mb-5">
         <div className="row g-3 mb-4">
           <div className="col-12 col-md-6 col-lg-3">
