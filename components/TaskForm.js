@@ -20,6 +20,10 @@ export default function TaskForm({ fetchTasks }) {
         });
         setUsers(response.data);
       } catch (err) {
+        console.error('Fetch users error:', {
+          status: err.response?.status,
+          message: err.response?.data?.message,
+        });
         toast.error(err.response?.data?.message || 'Failed to fetch users');
       }
     };
@@ -29,26 +33,32 @@ export default function TaskForm({ fetchTasks }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/tasks`,
         { title, description, dueDate, priority, assignee },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
+      console.log('Task created:', response.data); // Debug log
       toast.success('Task created successfully');
-      fetchTasks();
       setTitle('');
       setDescription('');
       setDueDate('');
       setPriority('Medium');
       setAssignee('');
+      fetchTasks(); // Call handleTaskCreated to reset filters and fetch tasks
     } catch (err) {
+      console.error('Create task error:', {
+        status: err.response?.status,
+        message: err.response?.data?.message,
+        data: err.response?.data,
+      });
       toast.error(err.response?.data?.message || 'Failed to create task');
     }
   };
 
   return (
-    <div className="card shadow-lg p-4" style={{ width: '400px', borderRadius: '15px', background: 'linear-gradient(145deg, #ffffff, #e6e6e6)' }}>
-      <h3 className="card-title text-center mb-4" style={{ color: '#4F46E5' }}>Create Task</h3>
+    <div className="card shadow-lg p-4 mx-auto fade-in" style={{ maxWidth: '500px' }}>
+      <h3 className="card-title text-center mb-4">Create Task</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Title</label>
@@ -121,13 +131,6 @@ export default function TaskForm({ fetchTasks }) {
         <button
           type="submit"
           className="btn btn-primary w-100"
-          style={{
-            background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
-            border: 'none',
-            transition: 'transform 0.2s',
-          }}
-          onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-          onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
         >
           Create Task
         </button>

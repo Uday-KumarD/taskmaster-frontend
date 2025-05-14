@@ -63,9 +63,9 @@ export default function TaskCard({ task, fetchTasks, socket }) {
   };
 
   return (
-    <div className="col-md-4 mb-4">
-      <div className="card shadow-lg h-100" style={{ borderRadius: '15px', background: 'linear-gradient(145deg, #ffffff, #e6e6e6)' }}>
-        <div className="card-body">
+    <div className="col-12 col-md-6 col-lg-4 mb-4 fade-in">
+      <div className="card shadow-lg h-100">
+        <div className="card-body d-flex flex-column">
           {isEditing ? (
             <>
               <div className="mb-3">
@@ -113,23 +113,15 @@ export default function TaskCard({ task, fetchTasks, socket }) {
                   <option value="High">High</option>
                 </select>
               </div>
-              <div className="d-flex gap-2">
+              <div className="d-flex flex-wrap gap-2">
                 <button
-                  className="btn btn-primary"
-                  style={{
-                    background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
-                    border: 'none',
-                  }}
+                  className="btn btn-primary flex-grow-1"
                   onClick={handleEdit}
                 >
                   Save
                 </button>
                 <button
-                  className="btn btn-secondary"
-                  style={{
-                    background: 'linear-gradient(90deg, #6B7280, #9CA3AF)',
-                    border: 'none',
-                  }}
+                  className="btn btn-secondary flex-grow-1"
                   onClick={() => setIsEditing(false)}
                 >
                   Cancel
@@ -138,8 +130,8 @@ export default function TaskCard({ task, fetchTasks, socket }) {
             </>
           ) : (
             <>
-              <h5 className="card-title" style={{ color: '#4F46E5' }}>{task.title}</h5>
-              <p className="card-text">{task.description || 'No description'}</p>
+              <h5 className="card-title">{task.title}</h5>
+              <p className="card-text flex-grow-1">{task.description || 'No description'}</p>
               <p><strong>Due:</strong> {new Date(task.dueDate).toLocaleDateString()}</p>
               <p><strong>Priority:</strong> <span className={`badge ${task.priority === 'High' ? 'bg-danger' : task.priority === 'Medium' ? 'bg-warning' : 'bg-success'}`}>{task.priority}</span></p>
               <p><strong>Status:</strong> <span className={`badge ${status === 'Completed' ? 'bg-success' : status === 'In Progress' ? 'bg-info' : 'bg-secondary'}`}>{status}</span></p>
@@ -161,29 +153,15 @@ export default function TaskCard({ task, fetchTasks, socket }) {
                 </div>
               )}
               {isAdminOrManager && (
-                <div className="d-flex gap-2">
+                <div className="d-flex flex-wrap gap-2">
                   <button
-                    className="btn btn-primary"
-                    style={{
-                      background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
-                      border: 'none',
-                      transition: 'transform 0.2s',
-                    }}
-                    onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-                    onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+                    className="btn btn-primary flex-grow-1"
                     onClick={() => setIsEditing(true)}
                   >
                     Edit
                   </button>
                   <button
-                    className="btn btn-danger"
-                    style={{
-                      background: 'linear-gradient(90deg, #EF4444, #F87171)',
-                      border: 'none',
-                      transition: 'transform 0.2s',
-                    }}
-                    onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-                    onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+                    className="btn btn-danger flex-grow-1"
                     onClick={handleDelete}
                   >
                     Delete

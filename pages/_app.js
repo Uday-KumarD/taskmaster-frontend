@@ -14,7 +14,7 @@ import '../styles/globals.css';
 
 export default function MyApp({ Component, pageProps }) {
   const [socket, setSocket] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Closed by default on mobile
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
@@ -71,7 +71,7 @@ export default function MyApp({ Component, pageProps }) {
           className="flex-grow-1"
           style={{
             marginTop: isAuthenticated ? '56px' : '0',
-            marginLeft: isAuthenticated ? (isSidebarOpen ? '250px' : '60px') : '0',
+            marginLeft: isAuthenticated && isSidebarOpen ? '250px' : isAuthenticated ? '60px' : '0',
             transition: 'margin-left 0.3s ease',
           }}
         >

@@ -7,7 +7,7 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState(''); // New state for role
+  const [role, setRole] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -44,8 +44,8 @@ export default function Register() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px', background: 'linear-gradient(145deg, #ffffff, #e6e6e6)' }}>
+    <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 register-page">
+      <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px' }}>
         <h2 className="text-center mb-4" style={{ color: '#4F46E5' }}>Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

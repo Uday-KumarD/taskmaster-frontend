@@ -36,11 +36,12 @@ export default function AdminUsers() {
   }, []);
 
   return (
-    <div className="container-fluid py-5">
-      <h1 className="mb-5 text-center" style={{ color: '#4F46E5' }}>Manage Users</h1>
+    <div className="container-fluid py-4">
+      <h1 className="mb-4 text-center">Manage Users</h1>
       <div className="card shadow-lg p-4">
         <h3 className="mb-4">Registered Users</h3>
-        <div className="table-responsive">
+        {/* Table for larger screens */}
+        <div className="table-responsive d-none d-md-block">
           <table className="table table-hover">
             <thead>
               <tr>
@@ -61,10 +62,6 @@ export default function AdminUsers() {
                       {user.role === 'User' && (
                         <button
                           className="btn btn-primary btn-sm"
-                          style={{
-                            background: 'linear-gradient(90deg, #4F46E5, #7C3AED)',
-                            border: 'none',
-                          }}
                           onClick={() => handlePromote(user._id)}
                         >
                           Promote to Manager
@@ -78,6 +75,28 @@ export default function AdminUsers() {
               )}
             </tbody>
           </table>
+        </div>
+        {/* Card layout for mobile */}
+        <div className="d-md-none">
+          {users.length ? (
+            users.map((user) => (
+              <div key={user._id} className="card shadow-lg p-3 mb-3 fade-in">
+                <h5>{user.name}</h5>
+                <p className="mb-1"><strong>Email:</strong> {user.email}</p>
+                <p className="mb-2"><strong>Role:</strong> {user.role}</p>
+                {user.role === 'User' && (
+                  <button
+                    className="btn btn-primary w-100"
+                    onClick={() => handlePromote(user._id)}
+                  >
+                    Promote to Manager
+                  </button>
+                )}
+              </div>
+            ))
+          ) : (
+            <div className="text-center">No users found</div>
+          )}
         </div>
       </div>
     </div>

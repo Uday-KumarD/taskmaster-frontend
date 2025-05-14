@@ -54,11 +54,11 @@ export default function Home({ socket }) {
     }
   }, [newTasks]);
 
-  if (!user) return <div className="text-center mt-5">Loading...</div>;
+  if (!user) return <div className="text-center mt-5 fade-in">Loading...</div>;
 
   return (
-    <div className="container-fluid py-5">
-      <h1 className="mb-5 text-center" style={{ color: '#4F46E5' }}>Welcome, {user.name}</h1>
+    <div className="container-fluid py-4">
+      <h1 className="mb-4 text-center">Welcome, {user.name}</h1>
       <div className="card shadow-lg p-4">
         <h3 className="mb-4">New Assigned Tasks</h3>
         <div className="row">

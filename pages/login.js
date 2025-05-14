@@ -42,7 +42,7 @@ export default function Login() {
 
   return (
     <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 login-page">
-      <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px', background: 'linear-gradient(145deg, #ffffff, #e6e6e6)' }}>
+      <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px' }}>
         <h2 className="text-center mb-4" style={{ color: '#4F46E5' }}>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

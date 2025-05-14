@@ -21,19 +21,35 @@ export default function AssignTasks({ socket }) {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         params,
       });
-      setTasks(response.data.filter((task) => task.creator._id === user._id));
+      console.log('Fetched tasks:', response.data); // Debug log
+      const userTasks = response.data.filter((task) => task.creator?._id === user._id);
+      setTasks(userTasks);
     } catch (err) {
+      console.error('Fetch tasks error:', {
+        status: err.response?.status,
+        message: err.response?.data?.message,
+        data: err.response?.data,
+      });
       if (err.response?.status === 403) {
         toast.error('Access denied');
         return;
       }
       if (retryCount < 3) {
-        setTimeout(() => fetchTasks(retryCount + 1), 1000 * (retryCount + 1));
+        setTimeout(() => fetchTasks(retryCount + 1), 2000 * (retryCount + 1));
       } else {
         toast.error(err.response?.data?.message || 'Failed to fetch tasks');
         setTasks([]);
       }
     }
+  };
+
+  // Reset filters after task creation to avoid filtering out new tasks
+  const handleTaskCreated = () => {
+    setSearch('');
+    setStatus('');
+    setPriority('');
+    setDueDate('');
+    fetchTasks();
   };
 
   useEffect(() => {
@@ -52,63 +68,63 @@ export default function AssignTasks({ socket }) {
     }
   }, [socket]);
 
-  if (!user) return <div className="text-center mt-5">Loading...</div>;
-  if (!isAdminOrManager) return <div className="text-center mt-5">Access denied</div>;
+  if (!user) return <div className="text-center mt-5 fade-in">Loading...</div>;
+  if (!isAdminOrManager) return <div className="text-center mt-5 fade-in">Access denied</div>;
 
   return (
-  <div className="container-fluid py-5">
-    <h1 className="mb-5 text-center" style={{ color: '#4F46E5' }}>Assign Tasks</h1>
-    <div className="row justify-content-center align-items-center mb-5" style={{ minHeight: '50vh' }}>
-      <div className="col-md-6">
-        <TaskForm fetchTasks={fetchTasks} />
+    <div className="container-fluid py-4">
+      <h1 className="mb-4 text-center">Assign Tasks</h1>
+      <div className="row justify-content-center mb-5">
+        <div className="col-12 col-md-8 col-lg-6">
+          <TaskForm fetchTasks={handleTaskCreated} />
+        </div>
+      </div>
+      <div className="card shadow-lg p-4">
+        <div className="row g-3 mb-4">
+          <div className="col-12 col-md-6 col-lg-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search by title or description..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="">All Statuses</option>
+              <option value="To Do">To Do</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <select className="form-select" value={priority} onChange={(e) => setPriority(e.target.value)}>
+              <option value="">All Priorities</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <input
+              type="date"
+              className="form-control"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="row">
+          {tasks.length ? (
+            tasks.map((task) => (
+              <TaskCard key={task._id} task={task} fetchTasks={fetchTasks} socket={socket} />
+            ))
+          ) : (
+            <div className="col-12 text-center">No tasks created by you</div>
+          )}
+        </div>
       </div>
     </div>
-    <div className="card shadow-lg p-4">
-      <div className="row g-3 mb-4">
-        <div className="col-md-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title or description..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <div className="col-md-3">
-          <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">All Statuses</option>
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </div>
-        <div className="col-md-3">
-          <select className="form-select" value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="">All Priorities</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
-        <div className="col-md-3">
-          <input
-            type="date"
-            className="form-control"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="row">
-        {tasks.length ? (
-          tasks.map((task) => (
-            <TaskCard key={task._id} task={task} fetchTasks={fetchTasks} socket={socket} />
-          ))
-        ) : (
-          <div className="col-12 text-center">No tasks created by you</div>
-        )}
-      </div>
-    </div>
-  </div>
-);
+  );
 }

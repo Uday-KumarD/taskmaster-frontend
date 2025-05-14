@@ -20,13 +20,23 @@ export default function UserList() {
   }, []);
 
   return (
-    <div className="card p-4 shadow">
-      <h3>Users</h3>
-      <ul className="list-group">
-        {users.map((user) => (
-          <li key={user._id} className="list-group-item">{user.name} ({user.role}) - {user.email}</li>
-        ))}
-      </ul>
+    <div className="container-fluid py-4">
+      <h3 className="mb-4 text-center">Users</h3>
+      <div className="row g-3">
+        {users.length ? (
+          users.map((user) => (
+            <div key={user._id} className="col-12 col-md-6 col-lg-4 fade-in">
+              <div className="card shadow-lg p-3">
+                <h5>{user.name}</h5>
+                <p className="mb-1"><strong>Role:</strong> {user.role}</p>
+                <p className="mb-0"><strong>Email:</strong> {user.email}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-12 text-center">No users found</div>
+        )}
+      </div>
     </div>
   );
 }

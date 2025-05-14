@@ -50,14 +50,14 @@ export default function Tasks({ socket }) {
     }
   }, [socket]);
 
-  if (!user) return <div className="text-center mt-5">Loading...</div>;
+  if (!user) return <div className="text-center mt-5 fade-in">Loading...</div>;
 
   return (
-    <div className="container-fluid py-5">
-      <h1 className="mb-5 text-center" style={{ color: '#4F46E5' }}>My Tasks</h1>
+    <div className="container-fluid py-4">
+      <h1 className="mb-4 text-center">My Tasks</h1>
       <div className="card shadow-lg p-4 mb-5">
         <div className="row g-3 mb-4">
-          <div className="col-md-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <input
               type="text"
               className="form-control"
@@ -66,7 +66,7 @@ export default function Tasks({ socket }) {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="">All Statuses</option>
               <option value="To Do">To Do</option>
@@ -74,7 +74,7 @@ export default function Tasks({ socket }) {
               <option value="Completed">Completed</option>
             </select>
           </div>
-          <div className="col-md-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <select className="form-select" value={priority} onChange={(e) => setPriority(e.target.value)}>
               <option value="">All Priorities</option>
               <option value="Low">Low</option>
@@ -82,7 +82,7 @@ export default function Tasks({ socket }) {
               <option value="High">High</option>
             </select>
           </div>
-          <div className="col-md-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <input
               type="date"
               className="form-control"

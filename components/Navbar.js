@@ -32,28 +32,29 @@ export default function Navbar({ toggleSidebar, socket }) {
   };
 
   return (
-    <nav className="navbar navbar-dark fixed-top shadow-sm" style={{ height: '56px', overflow: 'hidden' }}>
+    <nav className="navbar navbar-dark fixed-top shadow-sm">
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <button
             className="navbar-toggler me-2"
             type="button"
             onClick={toggleSidebar}
-            style={{ color: 'white' }}
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" style={{ filter: 'invert(1)' }}></span>
           </button>
-          <Link href="/" className="navbar-brand fw-bold">TaskMaster</Link>
+          <Link href="/" className="navbar-brand fw-bold">
+            TaskMaster
+          </Link>
         </div>
         {user && (
           <ul className="navbar-nav d-flex flex-row align-items-center">
             <li className="nav-item me-3">
-              <span className="nav-link fw-bold" style={{ textTransform: 'capitalize', color: 'white' }}>
+              <span className="nav-link fw-bold" style={{ textTransform: 'capitalize' }}>
                 {user.name}
               </span>
             </li>
             <li className="nav-item me-3 position-relative">
-              <i className="bi bi-bell" style={{ fontSize: '1.2rem', color: 'white' }}></i>
+              <i className="bi bi-bell" style={{ fontSize: '1.2rem', color: '#ffffff' }}></i>
               {notificationCount > 0 && (
                 <span className="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle">
                   {notificationCount}
@@ -64,7 +65,6 @@ export default function Navbar({ toggleSidebar, socket }) {
               <button
                 className="btn btn-outline-light btn-sm"
                 onClick={handleLogout}
-                style={{ borderRadius: '5px', padding: '0.25rem 0.75rem' }}
               >
                 Logout
               </button>
