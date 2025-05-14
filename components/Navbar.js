@@ -53,14 +53,14 @@ export default function Navbar({ toggleSidebar, socket }) {
                 {user.name}
               </span>
             </li>
-            <li className="nav-item me-3 position-relative">
+            {/* <li className="nav-item me-3 position-relative">
               <i className="bi bi-bell" style={{ fontSize: '1.2rem', color: '#ffffff' }}></i>
               {notificationCount > 0 && (
                 <span className="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle">
                   {notificationCount}
                 </span>
               )}
-            </li>
+            </li> */}
             <li className="nav-item">
               <button
                 className="btn btn-outline-light btn-sm"
