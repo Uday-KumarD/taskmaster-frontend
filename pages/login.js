@@ -20,26 +20,26 @@ export default function Login() {
       email: email.toLowerCase().trim(),
       password: password.trim()
     };
-    console.log('Login request body:', requestBody);
+    // console.log('Login request body:', requestBody);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, requestBody, {
         headers: { 'Content-Type': 'application/json' }
       });
       const { token, user } = response.data;
-      // localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
       dispatch(setUser(user));
       toast.success('Login successful');
       // console.log('Login successful:', { token, user });
       router.push('/');
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
-      // console.error('Login error:', {
-      //   message: errorMessage,
-      //   status: err.response?.status,
-      //   data: err.response?.data,
-      //   error: err.message,
-      //   code: err.code
-      // });
+      console.error('Login error:', {
+        message: errorMessage,
+        status: err.response?.status,
+        data: err.response?.data,
+        error: err.message,
+        code: err.code
+      });
       toast.error(errorMessage);
     }
   };
