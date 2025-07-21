@@ -21,15 +21,15 @@ export default function AssignTasks({ socket }) {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         params,
       });
-      console.log('Fetched tasks:', response.data); // Debug log
+      // console.log('Fetched tasks:', response.data); // Debug log
       const userTasks = response.data.filter((task) => task.creator?._id === user._id);
       setTasks(userTasks);
     } catch (err) {
-      console.error('Fetch tasks error:', {
-        status: err.response?.status,
-        message: err.response?.data?.message,
-        data: err.response?.data,
-      });
+      // console.error('Fetch tasks error:', {
+      //   status: err.response?.status,
+      //   message: err.response?.data?.message,
+      //   data: err.response?.data,
+      // });
       if (err.response?.status === 403) {
         toast.error('Access denied');
         return;

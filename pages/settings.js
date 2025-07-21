@@ -13,7 +13,7 @@ export default function Settings() {
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Role:</strong> {user.role}</p>
-        <p className="text-muted">Notification preferences and other settings coming soon!</p>
+        {/* <p className="text-muted">Notification preferences and other settings coming soon!</p> */}
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ export default function TaskForm({ fetchTasks }) {
         { title, description, dueDate, priority, assignee },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
-      console.log('Task created:', response.data); // Debug log
+      // console.log('Task created:', response.data); // Debug log
       toast.success('Task created successfully');
       setTitle('');
       setDescription('');
@@ -47,11 +47,11 @@ export default function TaskForm({ fetchTasks }) {
       setAssignee('');
       fetchTasks(); // Call handleTaskCreated to reset filters and fetch tasks
     } catch (err) {
-      console.error('Create task error:', {
-        status: err.response?.status,
-        message: err.response?.data?.message,
-        data: err.response?.data,
-      });
+      // console.error('Create task error:', {
+      //   status: err.response?.status,
+      //   message: err.response?.data?.message,
+      //   data: err.response?.data,
+      // });
       toast.error(err.response?.data?.message || 'Failed to create task');
     }
   };
