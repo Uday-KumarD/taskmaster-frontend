@@ -26,20 +26,20 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' }
       });
       const { token, user } = response.data;
-      localStorage.setItem('token', token);
+      // localStorage.setItem('token', token);
       dispatch(setUser(user));
       toast.success('Login successful');
-      console.log('Login successful:', { token, user });
+      // console.log('Login successful:', { token, user });
       router.push('/');
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
-      console.error('Login error:', {
-        message: errorMessage,
-        status: err.response?.status,
-        data: err.response?.data,
-        error: err.message,
-        code: err.code
-      });
+      // console.error('Login error:', {
+      //   message: errorMessage,
+      //   status: err.response?.status,
+      //   data: err.response?.data,
+      //   error: err.message,
+      //   code: err.code
+      // });
       toast.error(errorMessage);
     }
   };
