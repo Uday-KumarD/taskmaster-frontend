@@ -5,10 +5,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { setUser } from '../store/slices/authSlice';
 import Link from 'next/link';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -18,7 +20,7 @@ export default function Login() {
       email: email.toLowerCase().trim(),
       password: password.trim()
     };
-    // console.log('Login request body:', requestBody);
+    console.log('Login request body:', requestBody);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, requestBody, {
         headers: { 'Content-Type': 'application/json' }
@@ -27,17 +29,23 @@ export default function Login() {
       localStorage.setItem('token', token);
       dispatch(setUser(user));
       toast.success('Login successful');
-      // console.log('Login successful:', { token, user });
+      console.log('Login successful:', { token, user });
       router.push('/');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Login failed';
-      // console.error('Login error:', {
-      //   message: errorMessage,
-      //   status: err.response?.status,
-      //   data: err.response?.data
-      // });
+      const errorMessage = err.response?.data?.message || err.message || 'Login failed';
+      console.error('Login error:', {
+        message: errorMessage,
+        status: err.response?.status,
+        data: err.response?.data,
+        error: err.message,
+        code: err.code
+      });
       toast.error(errorMessage);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -57,17 +65,29 @@ export default function Login() {
               placeholder="Enter your email"
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-3 position-relative">
             <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Enter your password"
-            />
+            <div className="input-group">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+                style={{ paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                className="btn position-absolute end-0 top-50 translate-middle-y"
+                style={{ background: 'none', border: 'none', zIndex: 10 }}
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'} style={{ fontSize: '1.2rem', color: '#4F46E5' }}></i>
+              </button>
+            </div>
           </div>
           <button
             type="submit"

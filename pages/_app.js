@@ -11,6 +11,7 @@ import Sidebar from '../components/Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function MyApp({ Component, pageProps }) {
   const [socket, setSocket] = useState(null);
