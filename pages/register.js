@@ -8,6 +8,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Added for password visibility
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -43,6 +44,10 @@ export default function Register() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 register-page">
       <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%', borderRadius: '15px' }}>
@@ -72,17 +77,29 @@ export default function Register() {
               placeholder="Enter your email"
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-3 position-relative">
             <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Enter your password"
-            />
+            <div className="input-group">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+                style={{ paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                className="btn position-absolute end-0 top-50 translate-middle-y"
+                style={{ background: 'none', border: 'none', zIndex: 10 }}
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                <i className={showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'} style={{ fontSize: '1.2rem', color: '#4F46E5' }}></i>
+              </button>
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="role" className="form-label">Role</label>
