@@ -25,7 +25,7 @@ export default function Register() {
       password: password.trim(),
       role
     };
-    console.log('Register request body:', requestBody);
+    // console.log('Register request body:', requestBody);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, requestBody, {
         headers: { 'Content-Type': 'application/json' }
