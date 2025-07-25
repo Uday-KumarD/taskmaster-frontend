@@ -31,15 +31,15 @@ export default function Register() {
         headers: { 'Content-Type': 'application/json' }
       });
       toast.success('Registration successful, please log in');
-      console.log('Registration successful:', response.data);
+      // console.log('Registration successful:', response.data);
       router.push('/login');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Registration failed';
-      console.error('Registration error:', {
-        message: errorMessage,
-        status: err.response?.status,
-        data: err.response?.data
-      });
+      // console.error('Registration error:', {
+      //   message: errorMessage,
+      //   status: err.response?.status,
+      //   data: err.response?.data
+      // });
       toast.error(errorMessage);
     }
   };
